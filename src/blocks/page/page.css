@@ -1,6 +1,6 @@
 .page {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
-    min-height: auto;
+    min-height: 100vh;
     background-color: #000000;
     margin: 0 auto;
     max-width: 100%;

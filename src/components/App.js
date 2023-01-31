@@ -16,7 +16,7 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
-import {signUp, signIn, checkToken} from '../utils/apiAuth';
+import { signUp, signIn, checkToken } from '../utils/apiAuth';
 
 import checkmarkImg from '../images/checkmark.svg'
 import crossImg from '../images/cross.svg'
@@ -25,23 +25,23 @@ import crossImg from '../images/cross.svg'
 
 function App() {
 
+  //Стейт для карточек
+  const [cards, setCards] = React.useState([]);
+
   const [currentUser, setCurrentUser] = React.useState({})
 
   //Стейт для авторизации для показа контента
-
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   //Стейт для InfoTooltip, модальное окно
-
   const [infoTooltip, setInfoTooltip] = React.useState(false);
 
   const navigate = useNavigate();
 
   const [emailValue, setEmailValue] = React.useState(null);
-  const [popupStatus, setPopupStatus] = React.useState({ image:'', message:'' });
+  const [popupStatus, setPopupStatus] = React.useState({ image: '', message: '' });
 
   //Авторизация
-
   function handleLogin(email, password) {
     signIn(email, password)
       .then((res) => {
@@ -51,27 +51,25 @@ function App() {
         navigate("/");
       })
       .catch(() => {
-        setPopupStatus({image: crossImg, message: 'Что-то пошло не так! Попробуйте еще раз.'});
+        setPopupStatus({ image: crossImg, message: 'Что-то пошло не так! Попробуйте еще раз.' });
         handleInfoTooltip();
       });
   };
 
-    //Регистрация нового пользователя
-
+  //Регистрация нового пользователя
   function handleRegister(email, password) {
     signUp(email, password)
       .then(() => {
-        setPopupStatus({image: checkmarkImg, message: 'Вы успешно зарегистрировались!'});
+        setPopupStatus({ image: checkmarkImg, message: 'Вы успешно зарегистрировались!' });
         navigate("/signin");
       })
       .catch(() => {
-        setPopupStatus({image: crossImg, message: 'Что-то пошло не так! Попробуйте еще раз.'});
+        setPopupStatus({ image: crossImg, message: 'Что-то пошло не так! Попробуйте еще раз.' });
       })
       .finally(handleInfoTooltip);
   };
 
   //Выход пользователя
-
   function handleLogOut() {
     setIsLoggedIn(false);
     localStorage.removeItem('jwt');
@@ -79,15 +77,12 @@ function App() {
     navigate("/signin");
   };
 
-
   //Инфо об успешной авт/рег и нет
   function handleInfoTooltip() {
     setInfoTooltip(true);
   };
 
-
- //Обновляем стейт, если токен уже есть, то LoggIn и EmailValue
-
+  //Обновляем стейт, если токен уже есть, то LoggIn и EmailValue
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -105,24 +100,22 @@ function App() {
     }
   }, []);
 
-    //Данные пользователя и карточки
-
+  //Данные пользователя и карточки
   React.useEffect(() => {
     if (isLoggedIn) {
-    Promise.all([
-      api.getUserInfo(),
-      api.getInitialCard()
-    ])
-      .then(([res, cards]) => {
-        setCurrentUser(res)
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      Promise.all([
+        api.getUserInfo(),
+        api.getInitialCard()
+      ])
+        .then(([res, cards]) => {
+          setCurrentUser(res)
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }, [isLoggedIn]);
-
 
   //Состояние попапов 
   const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);
@@ -147,7 +140,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
 
   //Обработчик для обновления аватара 
   function handleUpdateAvatar(user) {
@@ -183,9 +175,6 @@ function App() {
     setInfoTooltip(false);
   }
 
-  //Стейт для карточек
-  const [cards, setCards] = React.useState([]);
-
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -193,7 +182,10 @@ function App() {
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //Функция удаления карточки, по аналогии с функцией лайка
@@ -214,7 +206,6 @@ function App() {
       })
       .catch(err => console.log(err))
   }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
