@@ -41,6 +41,15 @@ function App() {
   const [emailValue, setEmailValue] = React.useState(null);
   const [popupStatus, setPopupStatus] = React.useState({ image: '', message: '' });
 
+  //Для выбранной карточки (попап открытой картинки)
+  const [selectedCard, setSelectedCard] = React.useState(null);
+
+  //Состояние попапов 
+  const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+
+
   //Авторизация
   function handleLogin(email, password) {
     signIn(email, password)
@@ -116,14 +125,6 @@ function App() {
         })
     }
   }, [isLoggedIn]);
-
-  //Состояние попапов 
-  const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-
-  //Для выбранной карточки (попап открытой картинки)
-  const [selectedCard, setSelectedCard] = React.useState(null);
 
   //Обработчик клика по изображению (попап)
   function handleCardClick(props) {
