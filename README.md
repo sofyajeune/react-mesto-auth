@@ -10,13 +10,13 @@
 
 ## Технологии:
 
-:white_check_mark: Адаптивная вёрстка
-:white_check_mark: Организация структуры по БЭМ-Nested
-:white_check_mark: Используется Flex-box & Grid-вёрстка
-:white_check_mark: Использованы ReactHooks, ReactRoutes
-:white_check_mark: Rest API
-:white_check_mark: React.js
-:white_check_mark: Реализована регистрация и авторизация пользователей
+* :white_check_mark: Адаптивная вёрстка
+* :white_check_mark: Организация структуры по БЭМ-Nested
+* :white_check_mark: Используется Flex-box & Grid-вёрстка
+* :white_check_mark: Использованы ReactHooks, ReactRoutes
+* :white_check_mark: Rest API
+* :white_check_mark: React.js
+* :white_check_mark:Реализована регистрация и авторизация пользователей
 
 ## Как посмотреть приложение (запуск локально):
 1. Склонируйте репозиторий git clone
