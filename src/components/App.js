@@ -27,11 +27,11 @@ function App() {
 
   const [currentUser, setCurrentUser] = React.useState({})
 
-  //Стейт для авторизации. Показывает, залогинен пользователь или нет. Для показа только доступного контента
+  //Стейт для авторизации для показа контента
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  //Стейт для отображения InfoTooltip. Модалка при успешной/ неудачной регистрации или авторизации
+  //Стейт для InfoTooltip, модальное окно
 
   const [infoTooltip, setInfoTooltip] = React.useState(false);
 
@@ -39,6 +39,8 @@ function App() {
 
   const [emailValue, setEmailValue] = React.useState(null);
   const [popupStatus, setPopupStatus] = React.useState({ image:'', message:'' });
+
+  //Авторизация
 
   function handleLogin(email, password) {
     signIn(email, password)
@@ -54,6 +56,8 @@ function App() {
       });
   };
 
+    //Регистрация нового пользователя
+
   function handleRegister(email, password) {
     signUp(email, password)
       .then(() => {
@@ -66,6 +70,8 @@ function App() {
       .finally(handleInfoTooltip);
   };
 
+  //Выход пользователя
+
   function handleLogOut() {
     setIsLoggedIn(false);
     localStorage.removeItem('jwt');
@@ -73,9 +79,14 @@ function App() {
     navigate("/signin");
   };
 
+
+  //Инфо об успешной авт/рег и нет
   function handleInfoTooltip() {
     setInfoTooltip(true);
   };
+
+
+ //Обновляем стейт, если токен уже есть, то LoggIn и EmailValue
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -96,21 +107,6 @@ function App() {
 
     //Данные пользователя и карточки
 
-  // React.useEffect(() => {
-  //   if (isLoggedIn) {
-  //     Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //       .then(([profileInfo, card]) => {
-  //         setCurrentUser(profileInfo);
-  //         setCards(card);
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       })
-  //   }
-  // }, [isLoggedIn])
-
-
-
   React.useEffect(() => {
     if (isLoggedIn) {
     Promise.all([
@@ -126,6 +122,7 @@ function App() {
       })
     }
   }, [isLoggedIn]);
+
 
   //Состояние попапов 
   const [isEditAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);

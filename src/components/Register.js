@@ -24,8 +24,8 @@ export default function Register(props) {
     <section className='auth'>
       <h3 className='auth__title'>Регистрация</h3>
       <form className='auth__form' onSubmit={handleSubmit}>
-        <input className='auth__input' type='email' placeholder='Email' value={email} onChange={handleEmailInput} required></input>
-        <input className='auth__input' type='password' placeholder='Пароль' value={password} onChange={handlePasswordInput} required></input>
+        <input className='auth__input' type='email' required  placeholder='Email' value={email} onChange={handleEmailInput}></input>
+        <input className='auth__input' type='password' required placeholder='Пароль' value={password} onChange={handlePasswordInput}></input>
         <button className='auth__button-submit'>Зарегистрироваться</button>
       </form>
       <p className='auth__caption'>Уже зарегистрированы? <Link to="/signin" className='auth__link'>Войти</Link></p>
